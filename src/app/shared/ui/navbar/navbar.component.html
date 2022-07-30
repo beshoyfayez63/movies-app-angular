@@ -1,0 +1,22 @@
+<nav class="nav" *ngIf="isAuth()">
+  <div class="container">
+    <div class="nav__home">
+      <a routerLink="/movies" class="nav__home-link"> MOVIES </a>
+    </div>
+
+    <div class="nav__actions">
+      <ul class="nav__list">
+        <li class="nav__item">
+          <a
+            routerLink="/movies/add-movie"
+            class="nav__link"
+            routerLinkActive="active"
+          >
+            Add Movie
+          </a>
+        </li>
+      </ul>
+      <button type="button" class="nav__btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>

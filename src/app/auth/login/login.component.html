@@ -1,0 +1,38 @@
+<form class="auth__form" [formGroup]="loginForm" (ngSubmit)="loginUser()">
+  <h1 class="auth__form-title">Login</h1>
+
+  <app-form-input
+    labelName="Email"
+    formControlName="email"
+    placeholder="Enter your Email"
+    [formField]="f['email']"
+    [errors]="[
+      { error: 'required', message: 'Email is required' },
+      { error: 'email', message: 'Email is not valid' }
+    ]"
+  >
+  </app-form-input>
+  <app-form-input
+    labelName="Password"
+    inputType="password"
+    formControlName="password"
+    placeholder="Enter your Password"
+    [formField]="f['password']"
+    [errors]="[{ error: 'required', message: 'Email is required' }]"
+  >
+  </app-form-input>
+
+  <div *ngIf="errorMessage" class="error-container">
+    <p class="error-msg">{{ errorMessage }}</p>
+  </div>
+
+  <app-custom-button
+    btnText="Login"
+    [loading]="loading"
+    [disabled]="loginForm.invalid || loading"
+  ></app-custom-button>
+
+  <a routerLink="/auth/register" class="auth__form-link">
+    Doesn't have any account yet? Create One.
+  </a>
+</form>

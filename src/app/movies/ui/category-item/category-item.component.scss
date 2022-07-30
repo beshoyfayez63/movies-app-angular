@@ -1,0 +1,18 @@
+.category {
+  white-space: nowrap;
+  padding: 10px 20px;
+  margin-inline-end: 10px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  transition: all 0.2s;
+  &:hover,
+  &.active {
+    color: white;
+    background-color: var(--primary-color);
+  }
+}

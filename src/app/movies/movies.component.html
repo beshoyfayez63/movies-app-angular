@@ -1,0 +1,27 @@
+<div class="loading" *ngIf="loading">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="categories container" *ngIf="!loading" #categoryItems>
+  <app-category-item
+    *ngFor="let cat of categories$ | async; let i = index"
+    [appHighlight]="categoryItems"
+    [categoryIndex]="i"
+    [category]="cat"
+  >
+  </app-category-item>
+</div>
+
+<div
+  class="movies container"
+  *ngIf="!loading && (movies$ | async).length; else movies_content"
+>
+  <app-movie-item *ngFor="let movie of movies$ | async" [movie]="movie">
+  </app-movie-item>
+</div>
+
+<ng-template #movies_content>
+  <div class="movies container" *ngIf="!loading">
+    <p>No Movies Added Yet</p>
+  </div>
+</ng-template>

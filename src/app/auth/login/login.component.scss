@@ -1,0 +1,43 @@
+:host(app-login) {
+  width: 400px;
+  @media (max-width: 576px) {
+    width: 90%;
+  }
+}
+
+.auth__form {
+  box-shadow: 1px 1px 5px #ccc;
+  padding: 1.5rem 1rem;
+  border-radius: 5px;
+  // max-width: 80%;
+
+  &-title {
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  &-control {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  &-link {
+    display: block;
+    margin-top: 1rem;
+    font-size: 14px;
+    text-decoration: none;
+  }
+}
+
+.error-container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.error-msg {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}

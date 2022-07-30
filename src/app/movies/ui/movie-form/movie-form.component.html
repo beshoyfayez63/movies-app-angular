@@ -1,0 +1,41 @@
+<form [formGroup]="movieForm" (ngSubmit)="submitMovie()" class="movie-form">
+  <app-form-input
+    labelName="Name"
+    placeholder="Please Enter Movie Name"
+    formControlName="name"
+    [formField]="f['name']"
+    [errors]="[{ error: 'required', message: 'Name is required' }]"
+  >
+  </app-form-input>
+
+  <app-form-input
+    labelName="Description"
+    placeholder="Please Enter Movie Description"
+    formControlName="description"
+    [formField]="f['description']"
+    [errors]="[{ error: 'required', message: 'Description is required' }]"
+  >
+  </app-form-input>
+
+  <app-img-input [movieImage]="movie?.image" formControlName="image">
+  </app-img-input>
+
+  <div class="loading-categories">
+    <app-loading-spinner *ngIf="loadingCategories"></app-loading-spinner>
+  </div>
+
+  <app-select-input
+    *ngIf="!loadingCategories"
+    formControlName="category_id"
+    [categories]="categories$ | async"
+  >
+  </app-select-input>
+
+  <app-custom-button
+    btnType="submit"
+    [btnText]="movie ? 'Update Movie' : 'Add Movie'"
+    [disabled]="movieForm.invalid || loadingCategories || loadingUpdateMovie"
+    [loading]="loadingUpdateMovie"
+  >
+  </app-custom-button>
+</form>

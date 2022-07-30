@@ -1,0 +1,6 @@
+<button [type]="btnType" class="btn" [disabled]="disabled">
+  <span *ngIf="!loading">{{ btnText }}</span>
+  <div class="loading" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+</button>

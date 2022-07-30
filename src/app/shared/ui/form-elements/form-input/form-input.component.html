@@ -1,0 +1,21 @@
+<div class="input-control">
+  <label [for]="labelName" class="input-control__label">{{ labelName }}</label>
+  <input
+    [type]="inputType"
+    class="input-control__input"
+    [placeholder]="placeholder"
+    [id]="labelName"
+    [class]="{ error: !formField.valid && formField.touched }"
+    [value]="inputValue"
+    (input)="onChange($event)"
+    (blur)="touched()"
+  />
+
+  <app-error-msg
+    *ngFor="let err of errors"
+    [formField]="formField"
+    [error]="err.error"
+    [message]="err.message"
+  >
+  </app-error-msg>
+</div>

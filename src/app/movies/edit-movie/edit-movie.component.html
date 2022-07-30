@@ -1,0 +1,4 @@
+<div class="edit-movie">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  <app-movie-form *ngIf="!loading" [movie]="movie$ | async"> </app-movie-form>
+</div>

@@ -1,0 +1,69 @@
+<form class="auth__form" [formGroup]="registerForm" (ngSubmit)="createUser()">
+  <h1 class="auth__form-title">Register</h1>
+  <div class="auth__form-control">
+    <label for="name" class="auth__form-label">Name:</label>
+    <input
+      type="text"
+      class="auth__form-input"
+      placeholder="Enter your name"
+      id="name"
+      formControlName="name"
+    />
+    <app-error-msg
+      error="required"
+      message="Name is required"
+      [formField]="f['name']"
+    ></app-error-msg>
+  </div>
+  <div class="auth__form-control">
+    <label for="email" class="auth__form-label">Email:</label>
+    <input
+      type="email"
+      class="auth__form-input"
+      placeholder="Enter your Email"
+      id="email"
+      formControlName="email"
+    />
+    <app-error-msg
+      error="required"
+      message="Email is required"
+      [formField]="f['email']"
+    ></app-error-msg>
+    <app-error-msg
+      error="email"
+      message="Email is not valid"
+      [formField]="f['email']"
+    ></app-error-msg>
+  </div>
+  <div class="auth__form-control">
+    <label for="password" class="auth__form-label">Password:</label>
+    <input
+      type="password"
+      class="auth__form-input"
+      placeholder="Enter your Password"
+      id="password"
+      formControlName="password"
+    />
+    <app-error-msg
+      error="required"
+      message="Password is required"
+      [formField]="f['password']"
+    ></app-error-msg>
+  </div>
+  <div *ngIf="errorMessages.length > 0" class="error-container">
+    <p *ngFor="let msg of errorMessages" class="error-msg">{{ msg }}</p>
+  </div>
+  <div *ngIf="successMessage" class="success-container">
+    <p class="success-msg">{{ successMessage }}</p>
+  </div>
+  <button class="auth__form-btn" [disabled]="registerForm.invalid || loading">
+    <span *ngIf="!loading">Register</span>
+    <div class="loading" *ngIf="loading">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+  </button>
+
+  <a routerLink="/auth/login" class="auth__form-link">
+    Already have an account? Login.
+  </a>
+</form>

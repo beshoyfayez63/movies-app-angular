@@ -1,0 +1,28 @@
+<div class="input-control">
+  <app-custom-button
+    btnText="Upload Image"
+    btnType="button"
+    (click)="addImage()"
+  ></app-custom-button>
+  <input
+    type="file"
+    style="display: none"
+    #fileInput
+    (change)="filePickerChanged($event)"
+  />
+
+  <div class="input-control__img-preview" *ngIf="movieImage || fileBase64">
+    <img
+      *ngIf="!fileBase64"
+      [src]="url + '/' + movieImage"
+      alt=""
+      class="input-control__img"
+    />
+    <img
+      *ngIf="fileBase64"
+      [src]="fileBase64"
+      alt=""
+      class="input-control__img"
+    />
+  </div>
+</div>

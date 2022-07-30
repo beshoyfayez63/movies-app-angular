@@ -1,0 +1,25 @@
+<div class="movie">
+  <div class="movie__img-container">
+    <img [src]="env.imgUrl + '/' + movie.image" alt="" class="movie__img" />
+  </div>
+  <div class="movie__details">
+    <span class="movie__name">{{ movie.name }}</span>
+    <div class="movie__actions">
+      <img
+        src="assets/svgs/edit.svg"
+        class="movie__action"
+        alt="edit"
+        (click)="editMovie(movie.id)"
+      />
+      <img
+        src="assets/svgs/delete.svg"
+        class="movie__action"
+        alt="delete"
+        (click)="deleteMovie(movie.id)"
+      />
+    </div>
+  </div>
+  <div class="loading" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+</div>

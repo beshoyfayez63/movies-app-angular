@@ -38,13 +38,10 @@ export class EditMovieComponent implements OnInit {
         next: () => {
           this.loading = false;
         },
-        error: (err: HttpErrorResponse) => this.handleError(err),
+        error: (err: HttpErrorResponse) => {
+          this.errorMsg = err.error.message;
+          this.loading = false;
+        },
       });
-  }
-
-  private handleError(err: HttpErrorResponse) {
-    console.log(err);
-    this.errorMsg = err.error.message;
-    this.loading = false;
   }
 }

@@ -31,7 +31,7 @@ export class LoginComponent {
     const { email, password } = this.loginForm.value;
     this.loading = true;
     this.authService.loginUser(email, password).subscribe({
-      next: (res) => {
+      next: (_) => {
         this.loading = false;
         this.router.navigateByUrl('/movies', { replaceUrl: true });
       },

@@ -17,8 +17,6 @@ export class HandleErrors implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap((event) => {
-        console.log(event);
-
         if (event instanceof HttpResponse && event.body.status === 'failed') {
           let error = event.body.message || event.body.messages || null;
           let errors = [];

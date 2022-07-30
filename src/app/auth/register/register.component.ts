@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
@@ -31,20 +32,13 @@ export class RegisterComponent {
     this.authService.registerUser(name, email, password).subscribe({
       next: (res: any) => {
         this.loading = false;
-        if (res['status'] === 'failed') {
-          this.handleError(res['message']);
-        } else {
-          this.successMessage = 'User Created Successfully';
-          this.registerForm.reset();
-        }
+        this.successMessage = 'User Created Successfully';
+        this.registerForm.reset();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.errorMessages = err.error;
       },
     });
-  }
-
-  private handleError(messages: { [key: string]: string[] }) {
-    this.errorMessages = [];
-    for (let msg in messages) {
-      this.errorMessages.push(...messages[msg]);
-    }
   }
 }

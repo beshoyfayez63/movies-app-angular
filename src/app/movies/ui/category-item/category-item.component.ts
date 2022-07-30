@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { MoviesService } from '../../data-access/movies.service';
 
@@ -13,6 +13,9 @@ export class CategoryItemComponent implements OnInit {
   @Input()
   categoryIndex: number;
 
+  @Output()
+  loadingMoviesByCategories = new EventEmitter<boolean>();
+
   clickedCategory: number;
 
   constructor(private moviesServices: MoviesService) {}
@@ -20,6 +23,11 @@ export class CategoryItemComponent implements OnInit {
   ngOnInit(): void {}
 
   selectCategory() {
-    this.moviesServices.fetchMoviesByCategory(this.category).subscribe();
+    this.loadingMoviesByCategories.emit(true);
+    this.moviesServices.fetchMoviesByCategory(this.category).subscribe({
+      next: (res) => {
+        this.loadingMoviesByCategories.emit(false);
+      },
+    });
   }
 }

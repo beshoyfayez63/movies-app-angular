@@ -42,6 +42,10 @@ export class SelectInputComponent implements OnInit, ControlValueAccessor {
 
   selectChange(event) {
     const value = (event.target as HTMLSelectElement).value;
-    this.onChanged(+value);
+    if (!value) {
+      this.onChanged(-1);
+    } else {
+      this.onChanged(+value);
+    }
   }
 }

@@ -24,7 +24,6 @@ export class HighlightDirective implements OnInit {
 
   @HostListener('click', ['$event']) selectCategory(event: PointerEvent) {
     const items = this.categoryItems.getElementsByClassName('active');
-    console.log();
 
     if (items[0]?.textContent === (event.target as HTMLElement).textContent) {
       let item = items[0];

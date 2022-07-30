@@ -12,6 +12,13 @@
   border-radius: 5px;
 }
 
+.loadingMoviesCategories {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
 .movies {
   display: flex;
   flex-wrap: wrap;

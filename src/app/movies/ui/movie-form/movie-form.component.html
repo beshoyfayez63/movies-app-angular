@@ -34,8 +34,8 @@
   <app-custom-button
     btnType="submit"
     [btnText]="movie ? 'Update Movie' : 'Add Movie'"
-    [disabled]="movieForm.invalid || loadingCategories || loadingUpdateMovie"
     [loading]="loadingUpdateMovie"
+    [disabled]="movieForm.invalid || loadingCategories || loadingUpdateMovie"
   >
   </app-custom-button>
 </form>

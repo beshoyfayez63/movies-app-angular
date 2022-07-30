@@ -14,6 +14,8 @@ export class MoviesComponent implements OnInit {
   categories$ = this.movieService.getCategories();
 
   loading = true;
+
+  loadingMoviesCategories = false;
   constructor(private movieService: MoviesService) {}
 
   ngOnInit(): void {
@@ -36,5 +38,13 @@ export class MoviesComponent implements OnInit {
           this.loading = false;
         },
       });
+  }
+
+  movieTrackByFn(_, item: Movie) {
+    return item.id;
+  }
+
+  loadingMoviesByCategories(loading: boolean) {
+    this.loadingMoviesCategories = loading;
   }
 }

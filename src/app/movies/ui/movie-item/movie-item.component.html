@@ -1,6 +1,11 @@
 <div class="movie">
   <div class="movie__img-container">
-    <img [src]="env.imgUrl + '/' + movie.image" alt="" class="movie__img" />
+    <img
+      [src]="env.imgUrl + '/' + movie.image"
+      alt=""
+      class="movie__img"
+      loading="lazy"
+    />
   </div>
   <div class="movie__details">
     <span class="movie__name">{{ movie.name }}</span>

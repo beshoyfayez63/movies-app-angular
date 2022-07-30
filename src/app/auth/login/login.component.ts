@@ -36,8 +36,6 @@ export class LoginComponent {
         this.router.navigateByUrl('/movies', { replaceUrl: true });
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
-
         this.loading = false;
         this.errorMessage = err.error.message;
       },

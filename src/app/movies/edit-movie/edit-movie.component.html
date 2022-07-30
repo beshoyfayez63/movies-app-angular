@@ -1,4 +1,7 @@
 <div class="edit-movie">
   <app-loading-spinner *ngIf="loading"></app-loading-spinner>
-  <app-movie-form *ngIf="!loading" [movie]="movie$ | async"> </app-movie-form>
+  <app-movie-form *ngIf="!loading && !errorMsg" [movie]="movie$ | async">
+  </app-movie-form>
+
+  <h1 *ngIf="!loading && errorMsg">{{ errorMsg }}</h1>
 </div>

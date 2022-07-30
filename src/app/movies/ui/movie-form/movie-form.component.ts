@@ -34,7 +34,10 @@ export class MovieFormComponent implements OnInit {
       name: [this.movie?.name || '', Validators.required],
       description: [this.movie?.description || '', Validators.required],
       image: [null, this.moviesService.imageValidator(this.movie?.image)],
-      category_id: [this.movie?.category?.id || '', Validators.required],
+      category_id: [
+        this.movie?.category?.id || '',
+        [Validators.required, Validators.min(0)],
+      ],
     });
     this.movieForm.valueChanges.subscribe(console.log);
     this.moviesService.fetchAllCategories().subscribe({
@@ -67,7 +70,8 @@ export class MovieFormComponent implements OnInit {
     }
 
     movieAction$.subscribe({
-      next: (_) => {
+      next: (res) => {
+        console.log(res);
         this.loadingUpdateMovie = false;
         this.router.navigateByUrl('/movies');
       },

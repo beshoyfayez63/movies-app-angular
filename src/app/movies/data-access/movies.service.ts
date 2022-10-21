@@ -15,6 +15,7 @@ interface GetMovie {
   status: string;
   message: Movie;
 }
+
 interface GetCategories {
   status: string;
   message: Category[];
@@ -41,10 +42,6 @@ export class MoviesService {
     return this.categories$.asObservable();
   }
 
-  getSelectedCategory() {
-    return this.selectedCategory$.asObservable();
-  }
-
   fetchMovies() {
     return this.http.get<GetMovies>(`${environment.apiUrl}/movies`).pipe(
       tap((res) => {
@@ -53,22 +50,20 @@ export class MoviesService {
     );
   }
 
-  fetchMovieById(movieId: number) {
-    return this.http
-      .get<GetMovie>(`${environment.apiUrl}/movies/${movieId}`)
-      .pipe(
-        tap((res) => {
-          this.movie$.next(res.message);
-        })
-      );
+  deleteMovieById(id: number) {
+    return this.http.post(`${environment.apiUrl}/movies/${id}`, { _method: 'delete' })
   }
 
-  fetchAllCategories() {
-    return this.http.get<GetCategories>(`${environment.apiUrl}/category`).pipe(
-      tap((res) => {
-        this.categories$.next(res.message);
-      })
-    );
+  fetchMovieById(movieId: number) {
+    return this.http.get<GetMovie>(`${environment.apiUrl}/movies/${movieId}`);
+  }
+
+  fetchingMovies() {
+    return this.http.get<GetMovies>(`${environment.apiUrl}/movies`);
+  }
+
+  fetchingCategories() {
+    return this.http.get<GetCategories>(`${environment.apiUrl}/category`)
   }
 
   imageValidator(movieImage: string): ValidatorFn {
@@ -88,21 +83,9 @@ export class MoviesService {
   addMovie(formData: FormData) {
     return this.http.post(`${environment.apiUrl}/movies`, formData);
   }
-  deleteMovie(movieId: number) {
-    return this.http
-      .post(`${environment.apiUrl}/movies/${movieId}`, { _method: 'delete' })
-      .pipe(
-        tap((res) => {
-          const movies = this.movies$.value;
-          this.movies$.next(movies.filter((movie) => movie.id !== movieId));
-        })
-      );
-  }
 
   fetchMoviesByCategory(category: Category) {
-    // this.selectedCategory$.next(category);
     const selectedCategory = this.selectedCategory$.value;
-
     if (selectedCategory && selectedCategory.id === category.id) {
       return this.fetchMovies().pipe(
         tap(() => {

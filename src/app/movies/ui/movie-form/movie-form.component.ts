@@ -3,8 +3,18 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Movie } from 'src/app/models/movie';
 import { MoviesService } from '../../data-access/movies.service';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from "@ngrx/store";
+import {
+  getCategoriesFail,
+  getCategoriesStart,
+  getCategoriesSuccess, updateMovieFail,
+  updateMovieStart,
+  updateMovieSuccess
+} from "../../movies.actions";
+import { Actions, ofType } from "@ngrx/effects";
+import { categories } from "../../store/movies.state";
 
 @Component({
   selector: 'app-movie-form',
@@ -13,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class MovieFormComponent implements OnInit {
   @Input() movie: Movie | null;
-  categories$ = this.moviesService.getCategories();
+  categories$ = this.store.select(categories);
   loadingCategories = true;
   loadingUpdateMovie = false;
   env = environment;
@@ -26,7 +36,9 @@ export class MovieFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private moviesService: MoviesService,
-    private router: Router
+    private router: Router,
+    private store: Store,
+    private actions$: Actions
   ) {}
 
   ngOnInit(): void {
@@ -39,11 +51,15 @@ export class MovieFormComponent implements OnInit {
         [Validators.required, Validators.min(0)],
       ],
     });
-    this.movieForm.valueChanges.subscribe(console.log);
-    this.moviesService.fetchAllCategories().subscribe({
-      next: (res) => (this.loadingCategories = false),
-      error: (err) => (this.loadingCategories = false),
-    });
+    this.getCategories();
+  }
+
+  getCategories() {
+    this.store.dispatch(getCategoriesStart());
+    this.actions$.pipe(
+      ofType(getCategoriesSuccess, getCategoriesFail),
+      take(1),
+    ).subscribe(() => this.loadingCategories = false);
   }
 
   submitMovie() {
@@ -64,22 +80,27 @@ export class MovieFormComponent implements OnInit {
     if (this.movie) {
       formData.append('_method', 'put');
 
-      movieAction$ = this.moviesService.updateMovie(this.movie.id, formData);
+      // movieAction$ = this.moviesService.updateMovie(this.movie.id, formData);
+      this.updateMovie(formData);
     } else {
       movieAction$ = this.moviesService.addMovie(formData);
     }
-
     movieAction$.subscribe({
-      next: (res) => {
-        console.log(res);
+      next: async (res) => {
         this.loadingUpdateMovie = false;
-        this.router.navigateByUrl('/movies');
+        await this.router.navigateByUrl('/movies');
       },
       error: (err) => {
-        console.log(err);
-
         this.loadingUpdateMovie = false;
       },
     });
+  }
+
+  updateMovie(formData: FormData) {
+    this.store.dispatch(updateMovieStart({ id: this.movie.id, formData }));
+    this.actions$.pipe(
+      ofType(updateMovieSuccess, updateMovieFail),
+      take(1)
+    ).subscribe(() => this.loadingUpdateMovie = false);
   }
 }

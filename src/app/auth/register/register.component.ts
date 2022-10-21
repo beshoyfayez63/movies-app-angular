@@ -2,6 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Store } from "@ngrx/store";
+import { registerStart } from "./register.actions";
+import { errorMsg, loading, successMsg } from "../store/auth.reducer";
 
 @Component({
   selector: 'app-register',
@@ -9,9 +12,12 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  loading = false;
-  errorMessages: string[] = [];
-  successMessage = '';
+  // loading = false;
+  // errorMessages: string[] = [];
+  // successMessage = '';
+  loading$ = this.store.select(loading);
+  successMsg$ = this.store.select(successMsg);
+  errorMessages = this.store.select(errorMsg);
   registerForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -22,23 +28,11 @@ export class RegisterComponent {
     return this.registerForm.controls;
   }
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {}
+  constructor(private authService: AuthService, private fb: FormBuilder, private store: Store) {}
 
   createUser() {
-    this.successMessage = '';
-    this.errorMessages = [];
     const { name, email, password } = this.registerForm.value;
-    this.loading = true;
-    this.authService.registerUser(name, email, password).subscribe({
-      next: (res: any) => {
-        this.loading = false;
-        this.successMessage = 'User Created Successfully';
-        this.registerForm.reset();
-      },
-      error: (err: HttpErrorResponse) => {
-        this.loading = false;
-        this.errorMessages = err.error;
-      },
-    });
+    this.store.dispatch(registerStart({name, email, password }));
+    this.registerForm.reset();
   }
 }

@@ -50,20 +50,44 @@
       [formField]="f['password']"
     ></app-error-msg>
   </div>
-  <div *ngIf="errorMessages.length > 0" class="error-container">
-    <p *ngFor="let msg of errorMessages" class="error-msg">{{ msg }}</p>
+<!--  <div *ngIf="(errorMessages | async)" class="error-container">-->
+<!--    <p *ngFor="let msg of (errorMessages | async)" class="error-msg">{{ msg }}</p>-->
+<!--  </div>-->
+  <ng-container *ngTemplateOutlet="errorMsgs; context: {errMsgs: errorMessages | async}"></ng-container>
+<!--  <div *ngIf="successMessage" class="success-container">-->
+<!--    <p class="success-msg">{{ successMessage }}</p>-->
+<!--  </div>-->
+  <ng-container *ngTemplateOutlet="successMsg; context: {successMsg: successMsg$ | async}"></ng-container>
+<!--  <button class="auth__form-btn" [disabled]="registerForm.invalid || loading">-->
+<!--    <span *ngIf="!loading">Register</span>-->
+<!--    <div class="loading" *ngIf="loading">-->
+<!--      <app-loading-spinner></app-loading-spinner>-->
+<!--    </div>-->
+<!--  </button>-->
+  <ng-container *ngTemplateOutlet="btnLoading; context: {loading: loading$ | async}"></ng-container>
+
+  <a routerLink="/auth/login" class="auth__form-link">
+    Already have an account? Login.
+  </a>
+</form>
+
+<ng-template #errorMsgs let-errors="errMsgs">
+  <div *ngIf="errors.length" class="error-container">
+    <p *ngFor="let msg of errors" class="error-msg">{{ msg }}</p>
   </div>
-  <div *ngIf="successMessage" class="success-container">
-    <p class="success-msg">{{ successMessage }}</p>
+</ng-template>
+
+<ng-template #successMsg let-successMsg="successMsg">
+  <div *ngIf="successMsg" class="error-container">
+    <p class="success-msg">{{ successMsg }}</p>
   </div>
+</ng-template>
+
+<ng-template #btnLoading let-loading="loading">
   <button class="auth__form-btn" [disabled]="registerForm.invalid || loading">
     <span *ngIf="!loading">Register</span>
     <div class="loading" *ngIf="loading">
       <app-loading-spinner></app-loading-spinner>
     </div>
   </button>
-
-  <a routerLink="/auth/login" class="auth__form-link">
-    Already have an account? Login.
-  </a>
-</form>
+</ng-template>

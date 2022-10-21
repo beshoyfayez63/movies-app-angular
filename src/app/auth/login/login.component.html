@@ -22,14 +22,14 @@
   >
   </app-form-input>
 
-  <div *ngIf="errorMessage" class="error-container">
-    <p class="error-msg">{{ errorMessage }}</p>
+  <div *ngIf="errorMessage$ | async" class="error-container">
+    <p class="error-msg">{{ errorMessage$ | async }}</p>
   </div>
 
   <app-custom-button
     btnText="Login"
-    [loading]="loading"
-    [disabled]="loginForm.invalid || loading"
+    [loading]="loading$ | async"
+    [disabled]="loginForm.invalid || (loading$ | async)"
   ></app-custom-button>
 
   <a routerLink="/auth/register" class="auth__form-link">

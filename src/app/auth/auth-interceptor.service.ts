@@ -7,16 +7,18 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, switchMap, take } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Store } from "@ngrx/store";
+import { user } from "./store/auth.reducer";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private store: Store) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.authService.getUser().pipe(
+    return this.store.select(user).pipe(
       take(1),
       switchMap((user) => {
         let modifiedReq = req.clone({

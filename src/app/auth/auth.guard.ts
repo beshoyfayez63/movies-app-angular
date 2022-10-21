@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route, Router, UrlSegment } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
-import { AuthService } from './auth.service';
+import { Store } from "@ngrx/store";
+import { user } from "./store/auth.reducer";
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private store: Store,private router: Router) {}
   canLoad(_: Route, __: UrlSegment[]): boolean | Observable<boolean> {
-    return this.authService.getUser().pipe(
+    return this.store.select(user).pipe(
       take(1),
       map((user) => {
         const isAuth = !!user;

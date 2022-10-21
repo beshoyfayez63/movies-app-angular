@@ -1,8 +1,8 @@
-<div class="loading" *ngIf="loading">
+<div class="loading" *ngIf="initialLoading">
   <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div class="categories container" *ngIf="!loading" #categoryItems>
+<div class="categories container" *ngIf="!initialLoading" #categoryItems>
   <app-category-item
     *ngFor="let cat of categories$ | async; let i = index"
     [appHighlight]="categoryItems"
@@ -21,7 +21,7 @@
   <div
     class="movies container"
     *ngIf="
-      (!loading || !loadingMoviesCategories) && movies.length;
+      (!initialLoading || !loadingMoviesCategories) && movies.length;
       else movies_content
     "
   >
@@ -34,7 +34,7 @@
 </ng-container>
 
 <ng-template #movies_content>
-  <div class="movies container" *ngIf="!loading && !loadingMoviesCategories">
+  <div class="movies container" *ngIf="!initialLoading && !loadingMoviesCategories">
     <p>No Movies Added Yet</p>
   </div>
 </ng-template>

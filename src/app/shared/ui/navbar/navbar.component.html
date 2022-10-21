@@ -1,4 +1,4 @@
-<nav class="nav" *ngIf="isAuth()">
+<nav class="nav" *ngIf="user$ | async">
   <div class="container">
     <div class="nav__home">
       <a routerLink="/movies" class="nav__home-link"> MOVIES </a>

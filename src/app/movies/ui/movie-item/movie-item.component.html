@@ -24,7 +24,7 @@
       />
     </div>
   </div>
-  <div class="loading" *ngIf="loading">
+  <div class="loading" *ngIf="loading$ | async">
     <app-loading-spinner></app-loading-spinner>
   </div>
 </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { Store } from "@ngrx/store";
+import { logout } from "../../../app.actions";
+import { user } from "../../../auth/store/auth.reducer";
 
 @Component({
   selector: 'app-navbar',
@@ -7,15 +9,12 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private authSerivce: AuthService) {}
+  user$ = this.store.select(user);
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
 
   logout() {
-    this.authSerivce.logout();
-  }
-
-  isAuth(): boolean {
-    return this.authSerivce.isAuth();
+    this.store.dispatch(logout());
   }
 }
